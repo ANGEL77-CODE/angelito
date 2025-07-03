@@ -1,0 +1,859 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5; /* Un gris más suave */
+    color: #333;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Contenedores de sección: controlan la visibilidad de cada "página" */
+.section-container {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.section-container.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para el modal (común para todos los modales) */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Modales secundarios ocultos por defecto */
+#newIdeaModal,
+#imageDetailModal,
+#editIdeaModal,
+#usersListModal {
+    display: none;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ajuste específico para el modal de detalle de imagen */
+#imageDetailModal .modal-content {
+    max-width: 750px;
+    padding: 35px;
+    display: flex; /* Usar flexbox para ordenar los elementos verticalmente */
+    flex-direction: column;
+    align-items: center; /* Centrar elementos dentro del modal */
+}
+
+/* Ajuste para el modal de edición de idea */
+#editIdeaModal .modal-content {
+    max-width: 550px;
+}
+
+/* Ajuste para el modal de lista de usuarios */
+#usersListModal .modal-content {
+    max-width: 400px; /* Un poco más pequeño para la lista */
+    max-height: 80vh; /* Limitar altura para scroll si hay muchos usuarios */
+    overflow-y: auto; /* Habilitar scroll si es necesario */
+}
+
+
+.close-button {
+    color: #888;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.close-button:hover {
+    color: #333;
+    transform: rotate(90deg);
+}
+
+/* Estilos de formulario dentro del modal */
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-size: 1.8em;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.modal-content label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content input[type="file"],
+.modal-content textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="password"]:focus,
+.modal-content input[type="file"]:focus,
+.modal-content textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* Estilos de botones (actualizados para iconos) */
+button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    display: flex; /* Para centrar contenido de botón con íconos */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre icono y texto */
+}
+
+button i.fas { /* Estilos para los íconos dentro de los botones */
+    font-size: 1.1em;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#loginForm button:first-of-type {
+    margin-bottom: 15px;
+}
+
+.logout-button {
+    background-color: #dc3545;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.action-button {
+    background-color: #6c757d;
+    font-size: 0.9em;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+.action-button:hover {
+    background-color: #5a6268;
+}
+.action-button.delete-button {
+    background-color: #dc3545;
+}
+.action-button.delete-button:hover {
+    background-color: #c82333;
+}
+
+.reaction-button {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+    font-size: 1em;
+    padding: 10px 18px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.reaction-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.reaction-button.like:hover {
+    background-color: #28a745;
+    color: white;
+}
+.reaction-button.heart:hover {
+    background-color: #e83e8c;
+    color: white;
+}
+
+
+/* --- Estilos para la página principal (mainPageSection) --- */
+
+/* Estilos del encabezado */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    letter-spacing: 1px;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    gap: 5px;
+    background-color: #4a5c6f;
+    border-radius: 6px;
+    padding: 5px;
+}
+.search-bar input {
+    border: none;
+    background: none;
+    color: white;
+    padding: 8px 10px;
+    font-size: 1em;
+    width: 200px;
+    outline: none;
+}
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.search-bar button {
+    background: none;
+    color: white;
+    padding: 8px 12px;
+    font-size: 1.1em;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+.search-bar button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: none;
+}
+
+/* Info de usuario y contador en el header */
+.user-info-summary {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre perfil y contador */
+    flex-wrap: wrap;
+}
+
+.user-profile-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+.user-profile-summary:hover {
+    opacity: 0.8;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+}
+
+.total-users-count { /* Estilo para el contador de usuarios */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: #4a5c6f; /* Fondo similar a la barra de búsqueda */
+    padding: 6px 12px;
+    border-radius: 20px; /* Borde más redondo */
+    cursor: pointer; /* Añadido cursor pointer para indicar que es clickeable */
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.total-users-count:hover {
+    background-color: #5a6e83; /* Ligeramente más claro al pasar el ratón */
+    transform: translateY(-1px);
+}
+.total-users-count i.fas {
+    color: #ffc107; /* Un color de acento para el icono de usuarios */
+    font-size: 1.1em;
+}
+
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Galería de imágenes */
+#imageGallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    padding: 25px;
+}
+
+.image-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.image-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.image-card .card-content {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-card h3 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-card p.card-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    color: #888;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.image-card .card-footer .author {
+    font-weight: 600;
+    color: #555;
+}
+.image-card .card-footer .card-likes,
+.image-card .card-footer .card-hearts {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.image-card .card-footer .fas {
+    font-size: 0.9em;
+    color: #007bff;
+}
+.image-card .card-footer .fa-heart {
+    color: #e83e8c;
+}
+
+
+/* Estilos del modal de detalle de imagen */
+#imageDetailModal .modal-content {
+    max-width: 750px;
+    padding: 35px;
+    display: flex; /* Usar flexbox para ordenar los elementos verticalmente */
+    flex-direction: column;
+    align-items: center; /* Centrar elementos dentro del modal */
+}
+
+#detailImage {
+    max-width: 100%;
+    height: auto;
+    max-height: 450px; /* Limita la altura de la imagen */
+    object-fit: contain; /* Asegura que la imagen se vea completa */
+    display: block;
+    margin: 0 auto 25px auto; /* Espacio debajo de la imagen */
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* Contenedor para el nombre, descripción y botones (nuevo) */
+.idea-main-info {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin-bottom: 25px; /* Espacio antes de las reacciones */
+}
+
+.idea-header-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px; /* Menos espacio, la descripción va justo debajo */
+}
+.idea-header-detail h2 {
+    margin: 0;
+    text-align: left;
+    flex-grow: 1;
+    margin-right: 15px;
+    font-size: 2em;
+    color: #2c3e50; /* Color de título más consistente */
+}
+.idea-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.idea-description-text {
+    font-size: 1.05em;
+    color: #555;
+    margin-bottom: 0; /* No margin-bottom, el contenedor .idea-main-info lo maneja */
+    white-space: pre-wrap; /* Mantiene saltos de línea del textarea */
+}
+
+/* Reacciones (Likes/Hearts) */
+.idea-interaction-summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%; /* Ocupa todo el ancho */
+    margin-top: 0; /* Ya .idea-main-info tiene margin-bottom */
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+.idea-interaction-summary span {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #444;
+}
+.idea-interaction-summary i {
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+.idea-interaction-summary .fa-thumbs-up {
+    color: #28a745;
+}
+.idea-interaction-summary .fa-heart {
+    color: #e83e8c;
+}
+.idea-interaction-summary .reaction-button {
+    margin-left: auto;
+}
+.reaction-button + .reaction-button {
+    margin-left: 10px;
+}
+
+
+/* Sección de comentarios */
+.comment-section {
+    margin-top: 30px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 25px;
+    width: 100%; /* Ocupa todo el ancho */
+}
+
+.comment-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 1.5em;
+}
+
+#commentsList {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #e9e9e9;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+}
+
+#commentsList li {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px dotted #e5e5e5;
+    font-size: 0.98em;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+#commentsList li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.comment-text-wrapper {
+    flex-grow: 1;
+    margin-right: 10px;
+    color: #444;
+}
+
+.comment-text-wrapper strong {
+    color: #2c3e50;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 12px;
+    font-size: 1.1em;
+    color: #888;
+    align-self: flex-end;
+}
+
+.comment-actions i {
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.comment-actions i:hover {
+    transform: scale(1.1);
+}
+
+.comment-actions .fa-thumbs-up:hover { color: #28a745; }
+.comment-actions .fa-thumbs-down:hover { color: #dc3545; }
+.comment-actions .fa-heart:hover { color: #e83e8c; }
+
+.comment-actions span.count {
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-left: -5px;
+    color: #555;
+    align-self: center;
+}
+
+.comment-input {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.comment-input input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    min-width: 180px;
+    font-size: 1em;
+}
+
+#commentingUser {
+    font-size: 0.95em;
+    color: #666;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+
+/* --- Estilos para Mensajes Personalizados (Alertas/Advertencias) --- */
+.custom-alert-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.custom-alert {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 280px;
+    max-width: 450px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInOut 4.5s forwards;
+}
+
+.custom-alert.error {
+    background-color: #dc3545;
+}
+
+.custom-alert .alert-close-btn {
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: transform 0.2s ease;
+}
+
+.custom-alert .alert-close-btn:hover {
+    transform: rotate(90deg);
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Estilos para la lista de usuarios */
+.user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.user-list li:last-child {
+    border-bottom: none;
+}
+
+.user-list li:hover {
+    background-color: #f8f8f8;
+}
+
+.user-list li .user-avatar-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+.user-list li .user-idea-count {
+    font-size: 0.9em;
+    color: #777;
+    margin-left: auto;
+    background-color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+
+/* --- Responsive Design --- */
+
+@media (max-width: 992px) { /* Tablet landscape and smaller */
+    #imageGallery {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .modal-content {
+        max-width: 90%;
+    }
+    #imageDetailModal .modal-content {
+        max-width: 600px;
+    }
+    #usersListModal .modal-content { /* Ajuste para el nuevo modal */
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 768px) { /* Tablet portrait and smaller */
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 20px;
+    }
+    .header-left, .header-right {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .search-bar {
+        width: 100%;
+        justify-content: center;
+    }
+    .search-bar input {
+        width: calc(100% - 70px);
+    }
+    .user-info-summary {
+        flex-direction: column; /* Apilar perfil y contador en móvil */
+        gap: 10px;
+    }
+    .user-profile-summary {
+        font-size: 1em;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    #newIdeaBtn, .logout-button {
+        width: 48%;
+        margin-left: 0;
+    }
+
+    #imageGallery {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+    .image-card img {
+        height: 140px;
+    }
+
+    #imageDetailModal .modal-content {
+        padding: 25px;
+        max-width: 95%;
+    }
+
+    .idea-header-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .idea-header-detail h2 {
+        font-size: 1.8em; /* Tamaño de fuente ligeramente más pequeño */
+    }
+    .idea-actions {
+        width: 100%;
+        justify-content: flex-start; /* Alinear a la izquierda en móviles */
+    }
+
+    #detailImage {
+        max-height: 300px; /* Limita la altura de la imagen en móviles */
+        margin-bottom: 20px;
+    }
+
+    .comment-input {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .comment-input input, .comment-input button {
+        width: 100%;
+    }
+    .custom-alert-container {
+        width: calc(100% - 30px);
+        left: 15px;
+        right: 15px;
+        top: 15px;
+    }
+    .custom-alert {
+        min-width: unset;
+    }
+    #usersListModal .modal-content { /* Ajuste para el nuevo modal en móviles */
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 480px) { /* Teléfonos pequeños */
+    header h1 {
+        font-size: 1.5em;
+    }
+    #imageGallery {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+    .image-card img {
+        height: 200px;
+    }
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web de Millonarios</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+</head>
+<body>
+
+    <div id="loginSection" class="section-container active">
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+                    <button type="button" id="createAccountBtn"><i class="fas fa-user-plus"></i> Crear Usuario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="createUserSection" class="section-container">
+        <div id="createUserModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Crear Nuevo Usuario</h2>
+                <form id="createUserForm">
+                    <label for="newUsername">Nombre de Usuario:</label>
+                    <input type="text" id="newUsername" name="newUsername" required>
+                    <label for="newPassword">Contraseña:</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                    <label for="confirmPassword">Confirmar Contraseña:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <button type="submit"><i class="fas fa-user-check"></i> Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainPageSection" class="section-container">
+        <header>
+            <div class="header-left">
+                <h1>WEB DE MILLONARIOS</h1>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar ideas...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info-summary">
+                    <div class="user-profile-summary" id="userProfileSummary">
+                        <img id="profileAvatarHeader" src="https://via.placeholder.com/30" alt="Avatar" class="profile-avatar">
+                        <span id="loggedInUserDisplay"></span>
+                    </div>
+                    <span id="totalUsersDisplay" class="total-users-count">
+                        <i class="fas fa-users"></i> <span id="userCount">0</span>
+                    </span>
+                </div>
+                <div class="header-actions">
+                    <button id="newIdeaBtn"><i class="fas fa-lightbulb"></i> NUEVA IDEA</button>
+                    <button id="logoutBtn" class="logout-button"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <main id="imageGallery">
+            </main>
+    </div>
+
+    <div id="newIdeaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Nueva Idea</h2>
+            <form id="newIdeaForm">
+                <label for="ideaName">Nombre:</label>
+                <input type="text" id="ideaName" name="ideaName" required>
+                <label for="ideaDescription">Descripción:</label>
+                <textarea id="ideaDescription" name="ideaDescription" rows="4" placeholder="Describe tu idea..."></textarea>
+                <label for="imageUpload">Cargar Imagen:</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required>
+                <button type="submit"><i class="fas fa-save"></i> Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="imageDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            
+            <img id="detailImage" src="" alt="Idea Image">
+
+            <div class="idea-main-info">
+                <div class="idea-header-detail">
+                    <h2 id="detailImageName"></h2>
+                    <div class="idea-actions">
+                        <button id="editIdeaBtn" class="action-button"><i class="fas fa-edit"></i> Editar</button>
+                        <button id="deleteIdeaBtn" class="action-button delete-button"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                    </div>
+                </div>
+                <p id="detailImageDescription" class="idea-description-text"></p>
+            </div>
+
+            <div class="idea-interaction-summary">
+                <span class="like-count"><i class="fas fa-thumbs-up"></i> <span id="detailLikesCount">0</span></span>
+                <span class="heart-count"><i class="fas fa-heart"></i> <span id="detailHeartsCount">0</span></span>
+                <button id="likeIdeaBtn" class="reaction-button like"><i class="fas fa-thumbs-up"></i> Me gusta</button>
+                <button id="heartIdeaBtn" class="reaction-button heart"><i class="fas fa-heart"></i> Me encanta</button>
+            </div>
+
+            <div class="comment-section">
+                <h3>Comentarios</h3>
+                <ul id="commentsList"></ul>
+                <div class="comment-input">
+                    <input type="text" id="commentText" placeholder="Escribe un comentario...">
+                    <span id="commentingUser">Usuario: [Nombre de Usuario]</span>
+                    <button id="postCommentBtn"><i class="fas fa-comment"></i> Comentar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editIdeaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Editar Idea</h2>
+            <form id="editIdeaForm">
+                <label for="editIdeaName">Nombre:</label>
+                <input type="text" id="editIdeaName" name="editIdeaName" required>
+                <label for="editIdeaDescription">Descripción:</label>
+                <textarea id="editIdeaDescription" name="editIdeaDescription" rows="4"></textarea>
+                <button type="submit"><i class="fas fa-save"></i> Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="usersListModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Usuarios Registrados</h2>
+            <ul id="registeredUsersList" class="user-list">
+                </ul>
+        </div>
+    </div>
+
+    <div id="customAlertContainer" class="custom-alert-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
